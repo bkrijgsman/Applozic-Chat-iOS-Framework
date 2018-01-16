@@ -74,7 +74,7 @@
 
 -(void)markConversationRead;
 -(void)markSingleMessageRead:(ALMessage *)almessage;
-
+-(void)addLeft;
 -(void)handleNotification:(UIGestureRecognizer*)gestureRecognizer;
 
 //-(void)googleImage:(UIImage*)staticImage withURL:(NSString *)googleMapUrl withCompletion:(void(^)(NSString *message, NSError *error))completion;

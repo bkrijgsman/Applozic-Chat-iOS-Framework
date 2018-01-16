@@ -131,7 +131,7 @@ static CGFloat const sendTextViewCornerRadius = 15.0f;
     
     if(self.individualLaunch)
     {
-        [self.navigationItem setLeftBarButtonItem:barButtonItem];
+        //[self.navigationItem setLeftBarButtonItem:barButtonItem];
     }
     
     self.navRightBarButtonItems = [NSMutableArray new];
@@ -192,10 +192,10 @@ static CGFloat const sendTextViewCornerRadius = 15.0f;
 
 -(void)dropShadowInNavigationBar
 {
-    self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
-    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
-    self.navigationController.navigationBar.layer.shadowRadius = 10;
-    self.navigationController.navigationBar.layer.masksToBounds = NO;
+    //self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
+    //self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
+    //self.navigationController.navigationBar.layer.shadowRadius = 10;
+    //self.navigationController.navigationBar.layer.masksToBounds = NO;
 }
 
 -(void)loadChatView {
@@ -231,26 +231,16 @@ static CGFloat const sendTextViewCornerRadius = 15.0f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSubViews) name:@"APP_ENTER_IN_FOREGROUND" object:nil];
     
-    [self.navigationController.navigationBar setTitleTextAttributes: @{
-                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
-                                                                       NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
-                                                                                                            size:NAVIGATION_TEXT_SIZE]
-                                                                       }];
     
     if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
     {
         
-        [self.navigationController.navigationBar setTitleTextAttributes: @{
-                                                                           NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
-                                                                           NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
-                                                                                                               size:NAVIGATION_TEXT_SIZE]
-                                                                           }];
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    
-        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
-        [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
+//self.navigationController.navigationBar.translucent = NO;
+    //    [self.navigationController.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
+     //   [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+    //
+    //    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+    //    [self.label setTextColor:[ALApplozicSettings getColorForNavigationItem]];
        
     }
 

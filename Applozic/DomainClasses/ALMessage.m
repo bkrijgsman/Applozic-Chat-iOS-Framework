@@ -179,7 +179,7 @@
     {
         if(difference <= 60)
         {
-            formattedDateStr = NSLocalizedStringWithDefaultValue(@"justNow", nil,[NSBundle mainBundle], @"Just Now", @"");
+            formattedDateStr = NSLocalizedStringWithDefaultValue(@"app_chat_just_now", nil,[NSBundle mainBundle], @"Just Now", @"");
             
         }
         else

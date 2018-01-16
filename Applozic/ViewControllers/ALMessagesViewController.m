@@ -133,7 +133,6 @@
     [self.view addSubview:self.emptyConversationText];
     self.emptyConversationText.hidden = YES;
     
-    self.barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self setCustomBackButton: NSLocalizedStringWithDefaultValue(@"back", nil, [NSBundle mainBundle], [ALApplozicSettings getTitleForBackButtonMsgVC], @"")]];
     
     if((self.channelKey || self.userIdToLaunch)){
         [self createAndLaunchChatView ];
@@ -167,14 +166,19 @@
     }
 }
 
+-(void)addLeft
+{
+    self.barButtonItem = [[UIBarButtonItem alloc] initWithImage:[[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0] style:UIBarButtonItemStylePlain target:self action:@selector(back:)];
+    
+    [self.navigationItem setLeftBarButtonItem:self.barButtonItem];
+    
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0] style:UIBarButtonItemStylePlain target:self action:@selector(back:)]];
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self dropShadowInNavigationBar];
-
-    [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
-    [self.navigationItem setLeftBarButtonItem:self.barButtonItem];
+    [self.navigationItem.backBarButtonItem setTitle:@""];
     [self.tabBarController.tabBar setHidden:[ALUserDefaultsHandler isBottomTabBarHidden]];
     
     if ([self.detailChatViewController refreshMainView])
@@ -191,7 +195,7 @@
     
     if([ALUserDefaultsHandler isNavigationRightButtonHidden])
     {
-        [self.navigationItem setRightBarButtonItems:nil];
+        //[self.navigationItem setRightBarButtonItems:nil];
     }
     
     if([ALApplozicSettings getCustomNavRightButtonMsgVC])
@@ -199,12 +203,12 @@
         self.refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                                         target:self
                                                                                         action:@selector(refreshMessageList)];
-        [self.navigationItem setRightBarButtonItem:self.refreshButton];
+        //[self.navigationItem setRightBarButtonItem:self.refreshButton];
     }
     
     if([ALUserDefaultsHandler isBackButtonHidden])
     {
-        [self.navigationItem setLeftBarButtonItems:nil];
+        //[self.navigationItem setLeftBarButtonItems:nil];
     }
 
     //register for notification
@@ -222,29 +226,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCallForUser:) name:@"USER_DETAILS_UPDATE_CALL" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUpdateBroadCastMessages) name:@"BROADCAST_MSG_UPDATE" object:nil];
     
-    [self.navigationController.navigationBar setTitleTextAttributes: @{
-                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
-                                                                       NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
-                                                                                                            size:NAVIGATION_TEXT_SIZE]
-                                                                       }];
     
     self.navigationItem.title = NSLocalizedStringWithDefaultValue(@"chatTitle", nil, [NSBundle mainBundle], [ALApplozicSettings getTitleForConversationScreen], @"");
     
+    [self.navigationController.navigationBar setTitleTextAttributes: @{
+                                                                       NSForegroundColorAttributeName:[UIColor whiteColor],
+                                                                       NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
+                                                                                                           size:NAVIGATION_TEXT_SIZE]
+                                                                       }];
     
-    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
-    {
-        [self.navigationController.navigationBar setTitleTextAttributes: @{
-                                                                           NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
-                                                                           NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
-                                                                                                                size:NAVIGATION_TEXT_SIZE]
-                                                                           }];
-        
-        self.navigationController.navigationBar.translucent = NO;
-        [self.navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-        [self.navigationController.navigationBar setTintColor: [ALApplozicSettings getColorForNavigationItem]];
-    }
-
+    
     [self callLastSeenStatusUpdate];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 -(void)intializeSubgroupMessages
@@ -295,11 +289,7 @@
 
 -(void)dropShadowInNavigationBar
 {
-    self.navigationController.navigationBar.layer.shadowOpacity = 0.5;
-    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 0);
-    self.navigationController.navigationBar.layer.shadowRadius = 10;
-    self.navigationController.navigationBar.layer.masksToBounds = NO;
-}
+    }
 
 //==============================================================================================================================================
 #pragma mark - END
@@ -594,7 +584,7 @@
         {
             if([ALApplozicSettings getGroupOption])
             {
-                return 1;
+                return 0;
             }
             else
             {

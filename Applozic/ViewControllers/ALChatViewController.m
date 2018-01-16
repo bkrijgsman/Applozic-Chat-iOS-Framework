@@ -171,7 +171,7 @@
     [self initialSetUp];
     [self fetchMessageFromDB];
     [self loadChatView];
-    self.placeHolderTxt = NSLocalizedStringWithDefaultValue(@"placeHolderText", nil, [NSBundle mainBundle], @"Write a Message...", @"");
+    self.placeHolderTxt = NSLocalizedStringWithDefaultValue(@"app_chat_write_a_message", nil, [NSBundle mainBundle], @"Write a Message...", @"");
     self.sendMessageTextView.text = self.placeHolderTxt;
     self.defaultMessageViewHeight = 56.0;
     
@@ -203,6 +203,7 @@
 {
     [super viewWillAppear:animated];
     
+    [self.navigationItem.backBarButtonItem setTitle:@""];
     [[NSNotificationCenter defaultCenter]
      addObserver:self selector:@selector(newMessageHandler:) name:NEW_MESSAGE_NOTIFICATION  object:nil];
     
@@ -351,6 +352,13 @@
     [self subscrbingChannel];
     
     [self loadMessagesForOpenChannel];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+}
+
+-(void)addLeft
+{
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0] style:UIBarButtonItemStylePlain target:self action:@selector(back:)]];
 }
 
 -(void)setFreezeForAddingRemovingUser:(NSNotification *)notifyObject
@@ -1024,7 +1032,7 @@
     userDetail.userId = self.alContact.userId;
     userDetail.lastSeenAtTime = self.alContact.lastSeenAt;
     userDetail.contactNumber = self.alContact.contactNumber;
-    
+    self.navigationItem.title = @"";
     [self updateLastSeenAtStatus:userDetail];
 }
 
@@ -2534,67 +2542,16 @@
     
     [ALUtilityClass setAlertControllerFrame:theController andViewController:self];
     
-    [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"cancelOptionText", nil, [NSBundle mainBundle], @"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
+    [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"app_cancel", nil, [NSBundle mainBundle], @"Cancel", @"") style:UIAlertActionStyleCancel handler:nil]];
     if(![ALApplozicSettings isCameraOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringWithDefaultValue(@"takePhotoText", nil, [NSBundle mainBundle], @"Take photo", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [theController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringWithDefaultValue(@"app_chat_take_photo", nil, [NSBundle mainBundle], @"Take photo", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 
             [self openCamera];
         }]];
     }
-    if(![ALApplozicSettings isLocationOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"currentLocationOption", nil, [NSBundle mainBundle], @"Current location", @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-            [self openLocationView];
-        }]];
-    }
-
-    if(![ALApplozicSettings isSendAudioOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"sendAudioOption", nil, [NSBundle mainBundle], @"Send Audio", @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-            [self openAudioMic];
-        }]];
-    }
-
-    if(![ALApplozicSettings isSendVideoOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"sendVideoOption", nil, [NSBundle mainBundle],  @"Send Video", @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-            [self openVideoCamera];
-        }]];
-    }
     
-    if((!self.channelKey && !self.conversationId) || (self.alChannel.type == GROUP_OF_TWO))
-    {
-        [theController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringWithDefaultValue(@"blockUserOption", nil, [NSBundle mainBundle], @"BLOCK USER", @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-            if(![ALDataNetworkConnection checkDataNetworkAvailable])
-            {
-                [self showNoDataNotification];
-                return;
-            }
-            
-            ALUserService *userService = [ALUserService new];
-            [userService blockUser:self.contactIds withCompletionHandler:^(NSError *error, BOOL userBlock) {
-                
-                if(userBlock)
-                {
-                    self.isUserBlocked = YES;
-                    [self.label setHidden:self.isUserBlocked];
-                    [self.typingLabel setHidden:self.isUserBlocked];
-                    NSString * alertText = [NSString stringWithFormat:[@"%@ " stringByAppendingString:NSLocalizedStringWithDefaultValue(@"blockedSuccessfullyText", nil, [NSBundle mainBundle], @"is blocked successfully", @"")], [self.alContact getDisplayName]];
-                    [ALUtilityClass showAlertMessage:alertText andTitle:NSLocalizedStringWithDefaultValue(@"userBlock", nil, [NSBundle mainBundle], @"USER BLOCK", @"")  ];
-                }
-            }];
-        }]];
-    }
-    if(![ALApplozicSettings isShareContactOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle: NSLocalizedStringWithDefaultValue(@"shareContact", nil, [NSBundle mainBundle], @"Share Contact", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-            [self openContactsView];
-        }]];
-    }
-
     if(![ALApplozicSettings isPhotoGalleryOptionHidden]){
-        [theController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringWithDefaultValue(@"photosOrVideoOption", nil, [NSBundle mainBundle], @"Photos/Videos" , @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [theController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringWithDefaultValue(@"app_chat_photo_video", nil, [NSBundle mainBundle], @"Photos/Videos" , @"")  style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
 
             UIStoryboard* storyboardM = [UIStoryboard storyboardWithName:@"Applozic" bundle:[NSBundle bundleForClass:ALChatViewController.class]];
             ALMultipleAttachmentView *launchChat = (ALMultipleAttachmentView *)[storyboardM instantiateViewControllerWithIdentifier:@"collectionView"];
@@ -3369,20 +3326,22 @@ style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     NSString *yesterdaydate =[format stringFromDate:yesterday];
     NSString *serverdate =[format stringFromDate:date];
     
+    [self.label setTextColor:[UIColor whiteColor]];
+    
     if([serverdate compare:todaydate] == NSOrderedSame)
     {
         
-        NSString *str = NSLocalizedStringWithDefaultValue(@"lastSeenLabelText", nil, [NSBundle mainBundle], @"Last seen ", @"");
+        NSString *str = NSLocalizedStringWithDefaultValue(@"app_chat_last_seen", nil, [NSBundle mainBundle], @"Last seen ", @"");
         
         double minutes = 2 * 60.00;
         if(alUserDetail.connected)
         {
-            [self.label setText:NSLocalizedStringWithDefaultValue(@"onlineLabelText", nil, [NSBundle mainBundle], @"Online", @"")];
+            [self.label setText:NSLocalizedStringWithDefaultValue(@"app_chat_online", nil, [NSBundle mainBundle], @"Online", @"")];
             
         }
         else if(difference < minutes)
         {
-            [self.label setText:NSLocalizedStringWithDefaultValue(@"lastSeenJustNowLabelText", nil, [NSBundle mainBundle], @"Last seen Just Now ", @"")];
+            [self.label setText:NSLocalizedStringWithDefaultValue(@"app_chat_last_seen_just_now", nil, [NSBundle mainBundle], @"Last seen Just Now ", @"")];
             
         }
         else
@@ -3399,7 +3358,7 @@ style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     theTime = [theTime substringFromIndex:[@"0" length]];
                 }
                 str = [str stringByAppendingString:theTime];
-                str = [str stringByAppendingString:NSLocalizedStringWithDefaultValue(@"hrsAgo", nil, [NSBundle mainBundle], @" hrs ago", @"")];
+                str = [str stringByAppendingString:NSLocalizedStringWithDefaultValue(@"app_chat_hours_ago", nil, [NSBundle mainBundle], @" hrs ago", @"")];
             }
             else
             {
@@ -3409,13 +3368,12 @@ style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     theTime = [theTime substringFromIndex:[@"0" length]];
                 }
                 str = [str stringByAppendingString:theTime];
-                str = [str stringByAppendingString:NSLocalizedStringWithDefaultValue(@"mins", nil, [NSBundle mainBundle], @" mins ago", @"")];
+                str = [str stringByAppendingString:NSLocalizedStringWithDefaultValue(@"app_chat_min_ago", nil, [NSBundle mainBundle], @" mins ago", @"")];
                 
                 
             }
             [self.label setText:str];
         }
-        
     }
     else if ([serverdate compare:yesterdaydate] == NSOrderedSame)
     {
@@ -3431,7 +3389,7 @@ style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
     else
     {
         [format setDateFormat:@"EE, MMM dd, yyy"];
-        NSString *str = NSLocalizedStringWithDefaultValue(@"lastSeenLabelText", nil, [NSBundle mainBundle], @"Last seen ", @"");
+        NSString *str = NSLocalizedStringWithDefaultValue(@"app_chat_last_seen", nil, [NSBundle mainBundle], @"Last seen ", @"");
         str = [str stringByAppendingString:[format stringFromDate:date]];
         [self.label setText:str];
     }

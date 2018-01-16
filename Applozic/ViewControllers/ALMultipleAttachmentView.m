@@ -44,7 +44,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
     //    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
-    [self setTitle: NSLocalizedStringWithDefaultValue(@"attachmentViewTitle", nil, [NSBundle mainBundle], @"Attachment", @"")];
+    [self setTitle: @""];
     
     self.sendButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"sendText", nil, [NSBundle mainBundle], @"Send" , @"")
                                                        style:UIBarButtonItemStylePlain
@@ -69,18 +69,14 @@ static NSString * const reuseIdentifier = @"collectionCell";
 
 -(void)navigationBarColor
 {
-    if([ALApplozicSettings getColorForNavigation] && [ALApplozicSettings getColorForNavigationItem])
-    {
+    
         [self.navigationController.navigationBar setTitleTextAttributes: @{
-                                                                           NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
+                                                                           NSForegroundColorAttributeName:[UIColor whiteColor],
                                                                            NSFontAttributeName:[UIFont fontWithName:[ALApplozicSettings getFontFace]
                                                                                                                 size:NAVIGATION_TEXT_SIZE]
                                                                            }];
 
-        [self.navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
-        [self.navigationController.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-        [self.navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    }
+    
 }
 
 -(void)cancelButtonAction
@@ -94,15 +90,7 @@ static NSString * const reuseIdentifier = @"collectionCell";
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    [navigationController.navigationBar setTitleTextAttributes: @{
-                                                                  NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem],
-                                                                  NSFontAttributeName: [UIFont fontWithName:@"Helvetica-Bold"
-                                                                                                       size:18]
-                                                                  }];
-    
-    [navigationController.navigationBar setBarTintColor: [ALApplozicSettings getColorForNavigation]];
-    [navigationController.navigationBar setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    [navigationController.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
+ 
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -249,8 +237,9 @@ static NSString * const reuseIdentifier = @"collectionCell";
         headerView.msgTextField.layer.borderColor = [[UIColor brownColor] CGColor];
         headerView.msgTextField.layer.borderWidth = 1.0f;
         headerView.msgTextField.placeholder =  NSLocalizedStringWithDefaultValue(@"writeSomeTextHere", nil, [NSBundle mainBundle], @"Write Some Text..." , @"");
-        
+        [headerView setHidden:YES];
         [headerView setBackgroundColor:[UIColor whiteColor]];
+        headerView.frame =  CGRectMake(0, 0, 0, 0);
     }
     
     return headerView;

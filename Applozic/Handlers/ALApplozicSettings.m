@@ -419,7 +419,7 @@ NOTIFICATION_DISABLE = 2
 +(NSString *)getEmptyConversationText
 {
     NSString * text = [[NSUserDefaults standardUserDefaults] valueForKey:EMPTY_CONVERSATION_TEXT];
-    return text ? text : NSLocalizedStringWithDefaultValue(@"noConversationTitle", nil,[NSBundle mainBundle], @"You have no conversations yet", @"");
+    return text ? text : NSLocalizedStringWithDefaultValue(@"app_chat_no_conversation", nil,[NSBundle mainBundle], @"You have no conversations yet", @"");
 }
 
 +(void)setVisibilityNoConversationLabelChatVC:(BOOL)flag
