@@ -175,6 +175,13 @@
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[[[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIcons"] objectForKey:@"CFBundlePrimaryIcon"] objectForKey:@"CFBundleIconFiles"] objectAtIndex:0] style:UIBarButtonItemStylePlain target:self action:@selector(back:)]];
 }
 
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

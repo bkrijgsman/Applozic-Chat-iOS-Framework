@@ -1452,6 +1452,11 @@
     isMicButtonVisible = YES;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 -(void)showSendButton
 {
     UIImage* sendImage = [ALUtilityClass getImageFromFramworkBundle:@"SendButton20.png"];

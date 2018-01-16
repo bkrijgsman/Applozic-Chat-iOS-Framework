@@ -79,6 +79,13 @@ static NSString * const reuseIdentifier = @"collectionCell";
     
 }
 
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+
 -(void)cancelButtonAction
 {
     [self.navigationController popViewControllerAnimated:YES];
