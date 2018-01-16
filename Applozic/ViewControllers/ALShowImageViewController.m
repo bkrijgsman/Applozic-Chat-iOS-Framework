@@ -31,18 +31,13 @@
 {
     self.alImageActivity = [[ALImageActivity alloc] init];
     self.alImageActivity.imageActivityDelegate = self;
-    
-    [self.navigationBar setTintColor:[ALApplozicSettings getColorForNavigation]];
-    [self.navigationBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-    
-    [self.backBarButton setTitle:NSLocalizedStringWithDefaultValue(@"back", nil, [NSBundle mainBundle], @"Back", @"")];
+        
+    [self.backBarButton setTitle:NSLocalizedStringWithDefaultValue(@"close", nil, [NSBundle mainBundle], @"Close", @"")];
     self.navigationBar.topItem.title = NSLocalizedStringWithDefaultValue(@"imagePreview", nil, [NSBundle mainBundle], @"Image Preview", @"");
     self.navigationBar.titleTextAttributes = @{
                                                NSForegroundColorAttributeName:[ALApplozicSettings getColorForNavigationItem]
                                                };
-    [self.toolBar setBarTintColor:[ALApplozicSettings getColorForNavigation]];
-    [self.backBarButton setTintColor:[ALApplozicSettings getColorForNavigationItem]];
-    [self.shareToolBarButton setTintColor:[ALApplozicSettings getColorForNavigationItem]];
+    
     [self.navigationBar addSubview:[ALUtilityClass setStatusBarStyle]];
 }
 
