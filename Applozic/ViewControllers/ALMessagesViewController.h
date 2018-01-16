@@ -38,6 +38,7 @@
 -(UIView *)setCustomBackButton:(NSString *)text;
 
 -(void)createAndLaunchChatView;
+-(void)addLeft;
 
 -(void) callLastSeenStatusUpdate;
 
