@@ -39,6 +39,7 @@
 
 -(void)createAndLaunchChatView;
 -(void)addLeft;
+-(void)reload;
 
 -(void) callLastSeenStatusUpdate;
 
