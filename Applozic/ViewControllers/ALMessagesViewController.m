@@ -145,6 +145,14 @@
     [self.dBService getMessages:self.childGroupList];
 }
 
+-(void)reload
+{
+    [self.dBService getMessages:self.childGroupList];
+    [self.detailChatViewController setRefreshMainView:FALSE];
+    [self.mTableView reloadData];
+}
+
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     BOOL profileFlag = NO;
