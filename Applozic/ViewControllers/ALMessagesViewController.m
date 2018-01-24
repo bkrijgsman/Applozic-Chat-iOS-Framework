@@ -1489,6 +1489,21 @@
     [self.navigationController pushViewController:self.detailChatViewController animated:YES];
 }
 
+-(void)createAndLaunchChatViewNoAnimation
+{
+    if (!(self.detailChatViewController))
+    {
+        self.detailChatViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ALChatViewController"];
+    }
+    
+    self.detailChatViewController.contactIds = self.userIdToLaunch;
+    self.detailChatViewController.channelKey = self.channelKey;
+    self.detailChatViewController.chatViewDelegate = self;
+    [self.detailChatViewController serverCallForLastSeen];
+    
+    [self.navigationController pushViewController:self.detailChatViewController animated:false];
+}
+
 -(void)insertChannelMessage:(NSNumber *)channelKey
 {
     ALMessage * channelMessage = [ALMessage new];
