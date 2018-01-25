@@ -41,7 +41,7 @@
 -(void)createAndLaunchChatViewNoAnimation;
 -(void)addLeft;
 -(void)reload;
-
+-(void)refreshMessageList;
 -(void) callLastSeenStatusUpdate;
 
 @property (strong, nonatomic) NSString * userIdToLaunch;
